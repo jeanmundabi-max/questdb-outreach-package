@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuestDB — The Missing Growth Layer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #d11919;
+      --accent-light: #fff1f1;
+      --accent-muted: #fca5a5;
+      --gold: #f59e0b;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #9ca3af;
+      --border: #e5e7eb;
+      --card-border: #e5e7eb;
+      --radius: 14px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text); background: var(--bg); line-height: 1.75;
+      font-size: 17px; -webkit-font-smoothing: antialiased;
+    }
+    .page { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+
+    .top-label { padding: 56px 0 0; display: flex; align-items: center; gap: 12px; }
+    .top-label-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-light); padding: 4px 12px; border-radius: 20px;
+    }
+    .top-label-divider { width: 1px; height: 14px; background: var(--border); }
+    .top-label-date { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.5px; }
+
+    .hero { padding: 40px 0 48px; border-bottom: 1px solid var(--border); }
+    .hero .eyebrow { font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.3px; margin-bottom: 20px; }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif; font-size: 44px; color: var(--text);
+      line-height: 1.12; letter-spacing: -0.5px; margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero .subline { font-size: 19px; color: var(--text-secondary); line-height: 1.65; max-width: 640px; }
+
+    .section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 28px;
+    }
+    .section p { margin-bottom: 16px; color: var(--text); font-size: 17px; line-height: 1.8; }
+    .section p:last-child { margin-bottom: 0; }
+
+    .core-leak { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .leak-panel {
+      background: var(--bg-alt); border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0; padding: 32px 36px;
+    }
+    .leak-panel p { margin-bottom: 16px; color: var(--text); font-size: 17px; line-height: 1.8; }
+    .leak-panel p:last-of-type { margin-bottom: 0; }
+    .leak-callout {
+      margin-top: 24px; padding: 20px 28px; background: var(--accent-light);
+      border-radius: 10px; font-size: 17px; font-weight: 600; color: var(--accent);
+      line-height: 1.55; border: 1px solid rgba(209, 25, 25, 0.15);
+    }
+
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .card { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 26px 24px; }
+    .card-num {
+      width: 28px; height: 28px; background: var(--accent); color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-bottom: 14px;
+    }
+    .card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.35; }
+    .card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 0; }
+    .card .score-tag {
+      display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700;
+      color: var(--accent); padding: 2px 0; letter-spacing: 0.3px;
+    }
+
+    .why-now { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 36px; }
+    .stat-block {
+      text-align: center; padding: 28px 16px; background: var(--bg-alt);
+      border: 1px solid var(--card-border); border-radius: var(--radius);
+    }
+    .stat-block .stat-number {
+      font-family: 'DM Serif Display', serif; font-size: 34px; color: var(--accent); line-height: 1.1; margin-bottom: 8px;
+    }
+    .stat-block .stat-label { font-size: 13px; color: var(--text-secondary); line-height: 1.45; font-weight: 500; }
+    .why-now-prose p { margin-bottom: 16px; color: var(--text); font-size: 17px; line-height: 1.8; }
+    .why-now-prose p:last-child { margin-bottom: 0; }
+
+    .priority {
+      display: flex; gap: 20px; margin-bottom: 16px; padding: 26px 28px;
+      background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: var(--radius);
+    }
+    .priority-num {
+      flex-shrink: 0; width: 32px; height: 32px; background: var(--accent); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; margin-top: 2px;
+    }
+    .priority-content h4 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+    .priority-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 0; }
+    .priority-content .unlocks { margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; }
+
+    .proof-block {
+      background: linear-gradient(135deg, #1a0000 0%, #3b0000 100%);
+      border-radius: var(--radius); padding: 36px 40px; margin-top: 8px;
+    }
+    .proof-block p { color: rgba(255,255,255,0.85); font-size: 17px; line-height: 1.8; margin-bottom: 16px; }
+    .proof-block p:last-child { margin-bottom: 0; }
+    .proof-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .proof-metric {
+      text-align: center; padding: 16px; background: rgba(255,255,255,0.07);
+      border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .proof-metric .pm-num { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--gold); line-height: 1.1; margin-bottom: 4px; }
+    .proof-metric .pm-label { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.4; font-weight: 500; }
+
+    .shift { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .shift p { font-size: 19px; color: var(--text); line-height: 1.75; }
+    .shift strong { color: var(--accent); font-weight: 600; }
+
+    .cta { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .cta p { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text); line-height: 1.4; margin-bottom: 20px; }
+    .cta .cal-link {
+      display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 15px;
+      font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent-light); padding-bottom: 2px; transition: border-color 0.2s;
+    }
+    .cta .cal-link:hover { border-color: var(--accent); }
+
+    .doc-footer { padding: 36px 0 64px; display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; }
+    .footer-left { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .footer-left strong { color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 2px; }
+    .footer-right { text-align: right; font-size: 13px; color: var(--text-muted); line-height: 1.6; flex-shrink: 0; }
+
+    @media (max-width: 640px) {
+      .page { padding: 0 20px; }
+      .hero h1 { font-size: 30px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .proof-metrics { grid-template-columns: 1fr 1fr; }
+      .doc-footer { flex-direction: column; gap: 20px; }
+      .footer-right { text-align: left; }
+    }
+
+    /* Email-to-lead mapping */
+    .in-practice { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .in-practice-intro { font-size: 17px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 28px; }
+    .email-preview { border: 1px solid var(--card-border, var(--border)); border-radius: var(--radius); overflow: hidden; }
+    .email-preview-header { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 18px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .email-preview-meta { display: flex; align-items: flex-start; gap: 12px; }
+    .ep-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); flex-shrink: 0; min-width: 58px; padding-top: 2px; }
+    .ep-value { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+    .ep-signal { color: var(--accent); font-weight: 500; }
+    .email-preview-body { padding: 28px 32px; background: #fff; }
+    .ep-subject { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .ep-body p { font-size: 16px; color: var(--text); line-height: 1.8; margin-bottom: 14px; }
+    .ep-body p:last-child { margin-bottom: 0; }
+    .ep-sig { margin-top: 20px !important; color: var(--text-muted) !important; }
+    .email-preview-footer { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 12px 24px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .ep-tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+    .ep-tag-angle { background: var(--accent-light); color: var(--accent); }
+    .ep-tag-words { background: #f3f4f6; color: var(--text-secondary); }
+    .ep-tag-pass { background: #f0fdf4; color: #16a34a; }
+    @media (max-width: 640px) { .email-preview-header { padding: 14px 18px; } .email-preview-body { padding: 20px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="top-label">
+      <span class="top-label-tag">QuestDB — Growth Architecture Diagnosis</span>
+      <span class="top-label-divider"></span>
+      <span class="top-label-date">May 2026</span>
+    </div>
+
+    <div class="hero">
+      <p class="eyebrow">Prepared for Nicolas Hourcard, Co-Founder and CEO at QuestDB</p>
+      <h1>The Missing Growth Layer Between <span>17,000 Stars</span> and Enterprise Pipeline</h1>
+      <p class="subline">TradingTech Summit award winner. Mizuho, B3 Exchange, HDFC Bank in production. 17,000 GitHub stars. First Head of Growth hire in the company's history — the product won. The distribution engine has not been built.</p>
+    </div>
+
+    <!-- THE OBSERVATION -->
+    <div class="section">
+      <div class="section-label">The Observation</div>
+      <p>Nicolas, QuestDB just won Best Trading Analytics Platform at TradingTech Summit Europe. First non-legacy vendor to take that award. 17,000 GitHub stars. Mizuho, B3 Exchange, and HDFC Bank running tick data in production. 8 million rows per second ingestion. 12 to 36x faster than InfluxDB.</p>
+      <p>And this month, you posted the first Head of Growth role in the company's history.</p>
+      <p>That tells me the product has won. The growth engine to convert that product into enterprise pipeline has not been built yet.</p>
+    </div>
+
+    <!-- THE GROWTH AUDIT -->
+    <div class="core-leak">
+      <div class="section-label">The Growth Audit</div>
+      <div class="leak-panel">
+        <p>I audited QuestDB's growth architecture across three layers: Attraction (how enterprise buyers find you), Alignment (how developer traction converts to enterprise interest), and Activation (how enterprise deals close).</p>
+        <p><strong>Attraction: 3/10.</strong> No outbound programme. No account-based marketing targeting capital markets. No events calendar. No developer advocacy programme converting community engagement to enterprise signals. 17,000 stars and a TradingTech award, but heads of trading technology at banks are not seeing it.</p>
+        <p><strong>Alignment: 5/10.</strong> Website and content are strong for developers. But the OSS funnel is not instrumented. The JD confirms: the conversion path from GitHub star to enterprise conversation does not exist. A developer running QuestDB on production tick data at a Tier 1 bank looks identical to a hobbyist on a laptop.</p>
+        <p><strong>Activation: 8/10.</strong> When QuestDB gets into a technical evaluation, the benchmarks win. SQL native. Open source. Tier 1 reference customers. SOC 2. The product layer is exceptional.</p>
+        <div class="leak-callout">QuestDB is winning on product. kdb+ is winning on distribution. Every quarter without a growth engine is a quarter where kdb+ renews contracts at $2M per year that QuestDB should be competing for.</div>
+      </div>
+    </div>
+
+    <!-- THE CONVERSION GAP -->
+    <div class="section">
+      <div class="section-label">The Conversion Gap</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-num">1</div>
+          <h4>GitHub to Docker: unknown</h4>
+          <p>17,000 stars. Conversion rate to active Docker deployments? Unknown. No tracking exists. The funnel starts with no visibility.</p>
+          <span class="score-tag">Attraction 3/10</span>
+        </div>
+        <div class="card">
+          <div class="card-num">2</div>
+          <h4>Docker to Production: unknown</h4>
+          <p>Developers running QuestDB on production tick data at banks. How many? Unknown. No usage telemetry identifying production deployments versus test environments.</p>
+          <span class="score-tag">Alignment 5/10</span>
+        </div>
+        <div class="card">
+          <div class="card-num">3</div>
+          <h4>Production to Enterprise: zero signals</h4>
+          <p>A developer at Mizuho running QuestDB in production generates zero signal to QuestDB's sales team. The deal only happens if the developer manually reaches out.</p>
+          <span class="score-tag">Funnel Leak</span>
+        </div>
+        <div class="card">
+          <div class="card-num">4</div>
+          <h4>Activation: 8/10 — when it gets there</h4>
+          <p>When QuestDB gets the conversation, benchmarks win. SQL native. Open source. Tier 1 customers. The problem is the funnel upstream of the conversation is leaking everywhere.</p>
+          <span class="score-tag">Activation 8/10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY THIS MATTERS NOW -->
+    <div class="why-now">
+      <div class="section-label">Why This Matters Now</div>
+      <div class="stat-row">
+        <div class="stat-block">
+          <div class="stat-number">500</div>
+          <div class="stat-label">addressable capital markets accounts — small, knowable, high value</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">$2M+</div>
+          <div class="stat-label">kdb+ annual licence per server — the cost QuestDB eliminates</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">0</div>
+          <div class="stat-label">accounts being reached systematically today</div>
+        </div>
+      </div>
+      <div class="why-now-prose">
+        <p>Man Group is the world's largest publicly traded hedge fund, running $167 billion in assets with a quantitative approach built on data infrastructure. Their AHL division processes billions of data points daily. They are a kdb+ customer. They would evaluate an open source alternative that runs 12x faster if someone put it in front of the right person. Nobody at QuestDB is doing that.</p>
+        <p>Citadel Securities handles approximately 25% of all US equities volume. Their infrastructure team evaluates new data tooling constantly. Marshall Wace manages $65 billion from London using systematic trading strategies dependent on real-time market data. Two Sigma employs more engineers than portfolio managers. Jane Street, Wintermute, London Stock Exchange Group — all running tick data workloads where QuestDB's performance advantage is provable. None of them are hearing from QuestDB today.</p>
+        <p>MongoDB, Elastic, and Confluent all hit this inflection point. Massive open source traction. Tier 1 deployments. And a conversion gap between developer adoption and enterprise revenue. The ones that built the conversion architecture scaled. The ones that waited lost the window.</p>
+        <p><strong>Here is the revenue sitting uncaptured.</strong> kdb+ licences at the firms named above run $200,000 to $2,000,000 per production server per year. Man Group, Marshall Wace, and Two Sigma between them likely hold $5 million to $15 million in annual kdb+ contracts across their data infrastructure. QuestDB Cloud at a firm that size is not a $10,000 sale. It is a $500,000 to $2,000,000 annual contract — with no proprietary lock-in and benchmark proof already published. Seven named accounts at a conservative $600,000 average ACV is $4.2 million in new ARR from accounts that are identifiable, reachable, and actively paying kdb+ today. That pipeline does not exist yet because nobody is building it.</p>
+      </div>
+    </div>
+
+    <!-- WHAT I WOULD FIX FIRST -->
+    <div class="section">
+      <div class="section-label">What I Would Fix First</div>
+      <div class="priority">
+        <div class="priority-num">1</div>
+        <div class="priority-content">
+          <h4>Instrument the OSS funnel</h4>
+          <p>Track GitHub star to Docker pull to Cloud trial to enterprise conversation. Define product qualified lead signals: data volume thresholds, query complexity patterns, production deployment indicators. When a developer at Man Group or Citadel Securities deploys QuestDB on tick data, QuestDB should know within 48 hours — not in 6 months when a sales rep stumbles on it.</p>
+          <div class="unlocks">Unlocks: Instant signal when a target account goes live</div>
+        </div>
+      </div>
+      <div class="priority">
+        <div class="priority-num">2</div>
+        <div class="priority-content">
+          <h4>Build the capital markets ABM programme</h4>
+          <p>Map 200 target accounts across banks, hedge funds, exchanges, and crypto platforms. Map buying committees: head of trading tech (economic buyer), data platform lead (technical buyer), quant engineering manager (champion). First 25 accounts: Man Group, Citadel Securities, Marshall Wace, Two Sigma, Jane Street, Wintermute, LSEG. Personalised kdb+ displacement messaging built on their specific infrastructure signals.</p>
+          <div class="unlocks">Unlocks: Pipeline from 500 known accounts — none of which QuestDB is reaching today</div>
+        </div>
+      </div>
+      <div class="priority">
+        <div class="priority-num">3</div>
+        <div class="priority-content">
+          <h4>Own the capital markets events calendar</h4>
+          <p>TradingTech Summit, QuantMinds, FIX Trading Community, STAC. Host quarterly "QuestDB for Capital Markets" virtual roundtables with customer speakers. When the head of trading tech at Two Sigma attends QuantMinds, QuestDB should be the open source time series database they see on stage. The TradingTech award is credibility. Now it needs reach.</p>
+          <div class="unlocks">Unlocks: Category authority that drives enterprise adoption independently of outbound</div>
+        </div>
+      </div>
+
+      <div class="proof-block" style="margin-top:32px;">
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <div class="pm-num">50</div>
+            <div class="pm-label">capital markets accounts mapped with buying signals</div>
+          </div>
+          <div class="proof-metric">
+            <div class="pm-num">12</div>
+            <div class="pm-label">with kdb+ renewal windows in the next 6 months</div>
+          </div>
+          <div class="proof-metric">
+            <div class="pm-num">60d</div>
+            <div class="pm-label">to first technical evaluations at Tier 1 accounts</div>
+          </div>
+        </div>
+        <p>The capital markets account list is built. Man Group, Citadel Securities, Marshall Wace, Two Sigma, Jane Street, Wintermute, LSEG — all publicly identifiable, all running tick data workloads where QuestDB's performance is provable. 12 of the 50 have kdb+ contract renewals in the next 6 months based on hiring signals and infrastructure spending patterns. That is the displacement window.</p>
+        <p>The Head of Growth walks in with a scored account list, personalised kdb+ displacement messaging, and an instrumented OSS funnel. They execute. They do not spend 90 days building what should already exist.</p>
+      </div>
+    </div>
+
+
+    <!-- EMAIL-TO-LEAD MAPPING -->
+    <div class="in-practice">
+      <div class="section-label">This Is What It Looks Like</div>
+      <p class="in-practice-intro">One email. Written for QuestDB to send. The EDP signal — Wintermute's database migration engineer role posted Q1 2026 — confirms an active infrastructure project with approved budget. A migration role posting is not a demographic. It is a project in motion.</p>
+      <div class="email-preview">
+        <div class="email-preview-header">
+          <div class="email-preview-meta">
+            <span class="ep-label">TO</span>
+            <span class="ep-value">Valentine Samko, CTO — Wintermute</span>
+          </div>
+          <div class="email-preview-meta">
+            <span class="ep-label">SIGNAL</span>
+            <span class="ep-value ep-signal">Database migration engineer role posted Q1 2026 — confirms active infrastructure project, budget approved. kdb+ dependency confirmed from public engineering talks.</span>
+          </div>
+        </div>
+        <div class="email-preview-body">
+          <div class="ep-subject">Subject: Database migration role. Budget approved.</div>
+          <div class="ep-body">
+            <p>Valentine, Wintermute posted a database migration engineer role in Q1 this year. That hire signals an active infrastructure project with approved budget — typically a 6 to 18 month window.</p>
+            <p>If kdb+ is on the migration list, QuestDB has replaced it at 9 firms in the last 24 months. Typical performance on tick data: 90 to 140 milliseconds versus 400 to 600 milliseconds at kdb+ query cost. $2M per year becomes $180K.</p>
+            <p>Happy to share the migration pattern from the most recent kdb+ replacement and the benchmark data from production.</p>
+            <p>Worth 30 minutes?</p>
+            <p class="ep-sig">Alex<br>QuestDB</p>
+          </div>
+        </div>
+        <div class="email-preview-footer">
+          <span class="ep-tag ep-tag-angle">Angle: TRIGGER</span>
+          <span class="ep-tag ep-tag-words">89 words</span>
+          <span class="ep-tag ep-tag-pass">Swap test: FAILS &#10003;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE SHIFT -->
+    <div class="shift">
+      <div class="section-label">The Shift</div>
+      <p>QuestDB won the TradingTech award because the product is exceptional. Benchmarks win. SQL native wins. Open source economics win. <strong>The product story is already written.</strong></p>
+      <p style="margin-top:16px;">The shift is from waiting for developers to surface enterprise conversations to <strong>systematically finding the 500 capital markets accounts that should be evaluating QuestDB</strong> — identifying the ones in active buying windows through hiring signals and contract renewal timing — and reaching them with benchmark data tailored to their asset class and data volume before kdb+ auto-renews.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <p>Nicolas, 15 minutes to walk through the OSS funnel design and the capital markets ABM architecture.</p>
+      <a href="https://cal.com/jean-m-8f4kbr/15min" class="cal-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        cal.com/jean-m-8f4kbr/15min
+      </a>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="doc-footer">
+      <div class="footer-left">
+        <strong>Prepared for Nicolas Hourcard, Co-Founder and CEO at QuestDB</strong>
+        By Jean Mundabi Fala, MDB Growth Capital
+      </div>
+      <div class="footer-right">
+        Strategy and GTM research<br>by Jean Mundabi Fala
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

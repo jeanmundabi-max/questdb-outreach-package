@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicolas's Special Package — MDB Growth Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--or:#FF6100;--or-h:#E65500;--ne:#FFCC89;--ne-d:rgba(255,204,137,.1);
+--dk:#1a1008;--dk-s:#241709;--wh:#fff;--of:#f9fafb;--lt:#f3f4f6;
+--g3:#d1d5db;--g4:#9ca3af;--g5:#6b7280;--g6:#4b5563;
+--red:#ef4444;--grn:#22c55e;--amb:#f59e0b;
+--f:'Outfit',system-ui,sans-serif;--mx:880px;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:20px}
+body{font-family:var(--f);color:var(--dk);line-height:1.65;background:var(--wh);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+
+/* Side Nav */
+.sn{position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:8px}
+.sn a{width:8px;height:8px;border-radius:50%;background:var(--g3);display:block;transition:all .25s;position:relative}
+.sn a.ac{background:var(--or);transform:scale(1.5)}
+.sn a::after{content:attr(data-t);position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:.6rem;color:var(--g5);white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;font-weight:500}
+.sn a:hover::after{opacity:1}
+@media(max-width:900px){.sn{display:none}}
+
+/* Layout */
+.w{max-width:var(--mx);margin:0 auto;padding:0 24px}
+section{padding:80px 0}
+@media(max-width:640px){section{padding:56px 0}.w{padding:0 16px}}
+.dark{background:var(--dk);color:var(--wh)}
+.dark h1,.dark h2,.dark h3,.dark p,.dark li,.dark td,.dark th,.dark strong{color:var(--wh)}
+.alt{background:var(--of)}
+
+/* Typography */
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:16px}
+h2{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700;line-height:1.12;letter-spacing:-.02em;margin-bottom:12px}
+h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+p{margin-bottom:14px;font-size:.95rem}
+.label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--or);margin-bottom:6px}
+.dark .label{color:var(--ne)}
+.sub{color:var(--g5);font-size:.92rem;line-height:1.6}
+.dark .sub{color:var(--g4)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:8px;font:600 .88rem/1 var(--f);border:0;cursor:pointer;transition:all .15s}
+.btn:active{transform:scale(.97)}
+.b-or{background:var(--or);color:var(--wh)}.b-or:hover{background:var(--or-h)}
+.b-ne{background:var(--ne);color:var(--dk);font-weight:700}.b-ne:hover{background:#f0b860}
+.b-gh{background:transparent;color:var(--wh);border:1.5px solid rgba(255,255,255,.2)}.b-gh:hover{border-color:rgba(255,255,255,.5)}
+
+/* Top Banner */
+.tb{background:var(--dk);color:var(--g4);text-align:center;padding:10px 16px;font-size:.7rem;font-weight:500;border-bottom:1px solid rgba(255,255,255,.06)}
+.tb strong{color:var(--ne)}
+
+/* Hero */
+.hero{min-height:90vh;display:flex;align-items:center;padding-top:40px;padding-bottom:60px}
+.hero h1{font-size:clamp(2rem,5vw,3rem)}
+.hero h1 em{font-style:normal;color:var(--or)}
+.vid-box{width:100%;aspect-ratio:16/9;background:var(--dk-s);border:1px solid rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:24px 0;cursor:pointer;position:relative;overflow:hidden}
+.vid-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,204,137,.03),transparent 60%)}
+.pb{width:60px;height:60px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.pb:hover{transform:scale(1.06)}
+.pb::after{content:'';border-style:solid;border-width:9px 0 9px 16px;border-color:transparent transparent transparent var(--wh);margin-left:3px}
+.callout{background:rgba(255,204,137,.06);border-left:3px solid var(--ne);padding:18px 22px;border-radius:0 8px 8px 0;margin:18px 0}
+.dark .callout{background:rgba(255,204,137,.08)}
+.callout p{margin-bottom:6px;font-size:.9rem}
+.callout p:last-child{margin-bottom:0}
+.wild{font-size:1.15rem;font-weight:700;color:var(--ne)}
+
+/* Cards Grid */
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:20px 0}
+.cd{background:var(--wh);border:1px solid #e5e7eb;border-radius:10px;padding:22px;transition:border-color .15s}
+.cd:hover{border-color:var(--or)}
+.cd .num{width:28px;height:28px;background:var(--or);color:var(--wh);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;margin-bottom:10px}
+
+/* CTA Grid */
+.ctg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media(max-width:600px){.ctg{grid-template-columns:1fr}}
+.ctc{padding:28px 22px;border-radius:10px;text-align:center;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.ctc h3{margin-bottom:6px}.ctc p{font-size:.85rem;opacity:.75;margin-bottom:14px}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.82rem}
+th{text-align:left;padding:10px 14px;background:var(--or);color:var(--wh);font-weight:600;font-size:.7rem;letter-spacing:.04em;text-transform:uppercase}
+th:first-child{border-radius:6px 0 0 0}th:last-child{border-radius:0 6px 0 0}
+td{padding:10px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+tr:nth-child(even){background:var(--of)}
+.impact{color:var(--grn);font-weight:700}
+.total-row{background:rgba(255,97,0,.04)!important;font-weight:700}
+.dark table th{background:rgba(255,255,255,.1)}
+.dark table td{border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.85)}
+.dark table tr:nth-child(even){background:rgba(255,255,255,.03)}
+
+/* Traffic Lights */
+.tl{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.tl.red{background:rgba(239,68,68,.1);color:var(--red)}
+.tl.yel{background:rgba(245,158,11,.1);color:var(--amb)}
+.tl.grn{background:rgba(34,197,94,.1);color:var(--grn)}
+.tl .dot{width:8px;height:8px;border-radius:50%}
+.tl.red .dot{background:var(--red)}.tl.yel .dot{background:var(--amb)}.tl.grn .dot{background:var(--grn)}
+
+/* Biggest Leak */
+.bl{background:var(--dk);color:var(--wh);padding:22px;border-radius:10px;margin:20px 0;border-left:4px solid var(--red)}
+.bl h3{color:var(--red);font-size:.9rem;margin-bottom:6px}
+.bl p{color:rgba(255,255,255,.8);margin-bottom:0;font-size:.88rem}
+
+/* Pillars */
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:20px 0}
+.pl{padding:20px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.pl .pn{font-size:1.6rem;font-weight:800;color:var(--ne);line-height:1;margin-bottom:6px}
+.pl h3{font-size:.88rem;margin-bottom:4px}
+.pl p{font-size:.82rem;color:rgba(255,255,255,.65);margin-bottom:0}
+.tagline{font-style:italic;color:var(--g4);margin-top:20px;font-size:.95rem;text-align:center}
+
+/* Steps */
+.steps{counter-reset:st;margin:20px 0}
+.stp{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid #e5e7eb;align-items:flex-start}
+.stp:last-child{border-bottom:0}
+.stp::before{counter-increment:st;content:counter(st);width:32px;height:32px;min-width:32px;background:var(--or);color:var(--wh);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;margin-top:2px}
+.stp-c h3{font-size:.88rem;margin-bottom:2px}
+.stp-c p{font-size:.85rem;color:var(--g5);margin-bottom:0}
+
+/* Week Cards */
+.wk{padding:16px 20px;border-radius:8px;background:var(--wh);border:1px solid #e5e7eb;border-left:3px solid var(--or);margin-bottom:12px}
+.wk .wn{font-size:.68rem;font-weight:700;color:var(--or);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.wk p{font-size:.85rem;color:var(--g5);margin-bottom:0}
+.qw{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:16px 20px;margin-top:16px}
+.qw h3{color:var(--grn);margin-bottom:8px;font-size:.88rem}
+.qw li{font-size:.85rem;margin-bottom:6px;list-style:none;padding-left:20px;position:relative}
+.qw li::before{content:'+';position:absolute;left:0;color:var(--grn);font-weight:700}
+
+/* FAQ */
+.fq{border-bottom:1px solid #e5e7eb}
+.fq-q{padding:14px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.88rem;user-select:none;gap:10px}
+.fq-q .ic{width:20px;height:20px;min-width:20px;border-radius:5px;background:var(--of);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--g5);transition:transform .25s,background .25s}
+.fq.open .fq-q .ic{transform:rotate(45deg);background:var(--ne-d);color:var(--dk)}
+.fq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.85rem;color:var(--g5);line-height:1.7}
+.fq.open .fq-a{max-height:400px;padding-bottom:14px}
+
+/* About */
+.ab{display:flex;gap:20px;align-items:flex-start;margin:16px 0}
+@media(max-width:600px){.ab{flex-direction:column;align-items:center;text-align:center}}
+.av{width:64px;height:64px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--wh);font-weight:800;min-width:64px}
+.ab-i h3{font-size:1rem;margin-bottom:1px}
+.ab-i .role{color:var(--g5);font-size:.82rem;margin-bottom:8px}
+.ln-btn{display:inline-block;padding:6px 16px;border-radius:5px;background:var(--or);color:var(--wh);font-size:.78rem;font-weight:600;margin-top:6px;transition:background .15s}
+.ln-btn:hover{background:var(--or-h)}
+
+/* Offer list */
+.ol li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem;list-style:none;padding-left:24px;position:relative;color:rgba(255,255,255,.85)}
+.ol li::before{content:'+';position:absolute;left:0;color:var(--ne);font-weight:700;font-size:1rem}
+
+/* Footer */
+footer{text-align:center;padding:20px;font-size:.7rem;color:var(--g4);border-top:1px solid rgba(255,255,255,.06)}
+.dark footer{border-top-color:rgba(255,255,255,.06)}
+
+/* Metric cards */
+.mc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px 0}
+.mt{text-align:center;padding:22px 14px;border-radius:10px;background:var(--of);border:1px solid #e5e7eb}
+.mt .mn{font-size:2rem;font-weight:800;color:var(--or);line-height:1}
+.mt .ml{font-size:.72rem;color:var(--g5);margin-top:4px}
+.dark .mt{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08)}
+.dark .mt .ml{color:var(--g4)}
+
+/* Timeline */
+.tl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
+.tl-card{border-radius:10px;overflow:hidden;background:var(--wh);border:1px solid #e5e7eb}
+.tl-hd{padding:10px 16px;font-weight:700;font-size:.82rem;color:var(--wh);background:var(--or)}
+.tl-card ul{padding:14px 16px 16px 30px;font-size:.82rem;color:var(--g5)}
+.tl-card li{margin-bottom:4px}
+
+/* Case Study */
+.cs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
+.cs-p{padding:20px;border-radius:10px}
+.cs-p.ctx{background:#f1f5f9}
+.cs-p.act{background:var(--wh);border:1px solid #e5e7eb}
+.cs-p.res{background:rgba(255,97,0,.04);border:1px solid rgba(255,97,0,.12)}
+.cs-p h3{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--g5);margin-bottom:8px}
+
+/* Method Flow */
+.mf{display:flex;gap:6px;margin:20px 0;overflow-x:auto}
+@media(max-width:700px){.mf{flex-direction:column}}
+.ms{flex:1;min-width:120px;padding:16px;border-radius:8px;background:var(--of);border:1px solid #e5e7eb;text-align:center}
+.ms .msn{width:24px;height:24px;background:var(--or);color:var(--wh);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;margin:0 auto 8px}
+.ms h3{font-size:.78rem;margin-bottom:2px}
+.ms p{font-size:.7rem;color:var(--g5);margin-bottom:0}
+.ma{display:flex;align-items:center;color:var(--g3);font-size:1rem}
+@media(max-width:700px){.ma{justify-content:center;transform:rotate(90deg)}}
+
+/* Warning banner */
+.warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:16px 20px;margin:16px 0}
+.warn p{font-size:.85rem;color:var(--red);margin-bottom:0;font-weight:600}
+
+/* Vertical Priority Matrix */
+.vpm{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+.vp-card{padding:18px;border-radius:10px;border:1px solid #e5e7eb;background:var(--wh);text-align:center}
+.vp-card.top{border-color:var(--or);border-width:2px;background:rgba(255,97,0,.02)}
+.vp-card .vp-rank{font-size:1.6rem;font-weight:800;color:var(--or);line-height:1}
+.vp-card .vp-name{font-size:.88rem;font-weight:700;margin:6px 0 4px}
+.vp-card .vp-score{font-size:.72rem;color:var(--g5)}
+</style>
+</head>
+<body>
+
+<!-- TOP BANNER -->
+<div class="tb">Built for <strong>Nicolas Hourcard</strong>, Co-Founder and CEO at QuestDB — by Jean Mundabi Fala, MDB Growth Capital</div>
+
+<!-- SIDE NAV -->
+<nav class="sn" id="sideNav">
+<a href="#s1" data-t="Package" class="ac"></a><a href="#s2" data-t="Inside"></a><a href="#s3" data-t="Why Now"></a><a href="#s4" data-t="Who Built This"></a><a href="#s5" data-t="The Gift"></a><a href="#s6" data-t="Get Started"></a><a href="#s7" data-t="Attraction"></a><a href="#s8" data-t="Alignment"></a><a href="#s9" data-t="Activation"></a><a href="#s10" data-t="Money Levers"></a><a href="#s11" data-t="Funnel Cascade"></a><a href="#s12" data-t="Full Funnel"></a><a href="#s13" data-t="Competitors"></a><a href="#s14" data-t="The Gap"></a><a href="#s15" data-t="90 Day Overview"></a><a href="#s16" data-t="90 Day Plan 1"></a><a href="#s17" data-t="90 Day Plan 2"></a><a href="#s18" data-t="Email Samples"></a><a href="#s19" data-t="Key Results"></a><a href="#s20" data-t="Case Study"></a><a href="#s21" data-t="Growth Loops"></a><a href="#s22" data-t="FAQ"></a><a href="#s23" data-t="About"></a><a href="#s24" data-t="The Offer"></a><a href="#s25" data-t="Get Started"></a>
+</nav>
+
+<!-- CARD 1: HERO -->
+<section class="dark hero" id="s1"><div class="w">
+<span class="label rv">MDB Growth Capital</span>
+<h1 class="rv d1">Nicolas's Special <em>Growth Audit</em> Package</h1>
+<p class="sub rv d2">How QuestDB Converts 17,000 GitHub Stars and Tier 1 Bank Deployments Into Systematic Enterprise Pipeline Across 500 Addressable Capital Markets Accounts</p>
+<div class="vid-box rv d3" id="videoEmbed"><div class="pb"></div></div>
+<div class="warn rv">
+<p>Do Not Skip The Video Above. It is a personalised walkthrough made for you and QuestDB only.</p>
+</div>
+<div class="callout rv">
+<p><strong>How This Document Can Help QuestDB</strong></p>
+<p>This doc was crafted solely for you, Nicolas. Every detail fits QuestDB's OSS to enterprise growth challenge perfectly. It is the exact growth architecture to convert 17,000 GitHub stars and Tier 1 bank deployments into systematic enterprise pipeline.</p>
+<p class="wild">Our wild goal? Build QuestDB a capital markets growth engine that converts open source traction into enterprise pipeline, targeting 500 addressable accounts across banks, hedge funds, and exchanges, generating measurable enterprise conversations within 90 days.</p>
+</div>
+</div></section>
+
+<!-- CARD 2: WHAT'S INSIDE -->
+<section id="s2"><div class="w">
+<span class="label rv">What You Get</span>
+<h2 class="rv">What Is Inside Your Package?</h2>
+<div class="cg">
+<div class="cd rv"><div class="num">1</div><h3>OSS to Enterprise Growth Audit</h3><p>Where QuestDB's developer traction leaks before it becomes enterprise pipeline. Your OSS funnel, website, content, and capital markets positioning mapped layer by layer against the AAA framework. Red, Yellow, and Green grades for each.</p></div>
+<div class="cd rv d1"><div class="num">2</div><h3>OSS Funnel Architecture</h3><p>The conversion path from GitHub star to Docker pull to Cloud trial to enterprise conversation. Where the leaks are. What to instrument first.</p></div>
+<div class="cd rv d2"><div class="num">3</div><h3>Capital Markets ABM Design</h3><p>The 500 addressable accounts (banks, hedge funds, exchanges, crypto platforms). How to map buying committees. How to reach heads of trading technology.</p></div>
+<div class="cd rv d3"><div class="num">4</div><h3>Competitive Positioning Analysis</h3><p>QuestDB vs kdb+ vs InfluxDB vs TimescaleDB vs ClickHouse. Where you win on product. Where kdb+ wins on distribution. Where the gap is costing enterprise deals.</p></div>
+<div class="cd rv"><div class="num">5</div><h3>Sample Cold Email Sequences</h3><p>Two graded email sequences targeting heads of trading technology and data platform leads at capital markets firms. Ready to send. Scored against the Predicted Success Score methodology.</p></div>
+<div class="cd rv d1"><div class="num">6</div><h3>Revenue Gap Analysis</h3><p>The cost of 17,000 GitHub stars with no conversion path to enterprise: estimated hundreds of enterprise conversations lost annually in the funnel.</p></div>
+<div class="cd rv d2"><div class="num">7</div><h3>90 Day OSS to Enterprise Growth Plan</h3><p>Week by week execution from funnel instrumentation through first enterprise pipeline metrics. Built so the Head of Growth walks into a functioning system.</p></div>
+</div>
+</div></section>
+
+<!-- CARD 3: WHY QUESTDB -->
+<section class="alt" id="s3"><div class="w">
+<span class="label rv">The Research</span>
+<h2 class="rv">Why QuestDB? Why Now?</h2>
+<div class="callout rv"><p><strong>Signal 1: The product validation.</strong><br>QuestDB won Best Trading Analytics Platform at TradingTech Summit Europe. A non legacy vendor beating the kdb+ incumbents for this award is a category defining moment. Mizuho, B3 Exchange, HDFC Bank, OKX, and Airbus are running QuestDB in production. The product has won.</p></div>
+<div class="callout rv d1"><p><strong>Signal 2: The growth gap.</strong><br>In April 2026, QuestDB posted the first Head of Growth role in the company's history. The JD describes building everything from scratch: "instrument the OSS funnel," "treat the OSS funnel as a product," "build the analytics stack to measure source to OSS adoption to SQL to closed won." Those are infrastructure tasks, not optimisation tasks.</p></div>
+<div class="callout rv d2"><p><strong>Signal 3: The distribution paradox.</strong><br>17,000 GitHub stars. 8 million rows per second ingestion. 12 to 36x faster than InfluxDB. SQL native (no proprietary query language like kdb+'s q). And zero dedicated growth function. kdb+ charges millions per year for inferior performance. But their sales team has been in every bank for 30 years. QuestDB is winning on product. kdb+ is winning on distribution.</p></div>
+<p class="rv d3">Nicolas, the product is proven. The customers are real. The growth engine to convert all of that into systematic enterprise pipeline is the missing piece. That is why this package exists.</p>
+</div></section>
+
+<!-- CARD 4: WHO BUILT THIS -->
+<section id="s4"><div class="w">
+<span class="label rv">Credibility</span>
+<h2 class="rv">Three Things Worth Knowing About How This Was Built</h2>
+<div class="mc rv d1">
+<div class="mt"><div class="mn">£30M</div><div class="ml">Pipeline generated at Santander in 30 days</div></div>
+<div class="mt"><div class="mn">15%</div><div class="ml">SMB revenue growth at BT/EE</div></div>
+<div class="mt"><div class="mn">£40M</div><div class="ml">Marketing budget managed at Santander</div></div>
+</div>
+<div class="callout rv d2"><p><strong>Enterprise scale, not agency guesswork.</strong> I spent 2 plus years at Santander managing marketing effectiveness across a £30 to 40 million budget, including a hyper targeted campaign that generated a £30 million Private Banking pipeline in 30 days. Before that, 3 plus years at BT leading performance marketing for SMB with 15% revenue growth. I understand what go to market infrastructure looks like when it works at scale.</p></div>
+<div class="callout rv d3"><p><strong>The research is real.</strong> I audited your website, mapped your competitive landscape (kdb+, InfluxDB, TimescaleDB, ClickHouse, Apache Druid), read your benchmark publications, analysed your customer deployments (Mizuho, B3, HDFC, OKX, Airbus), studied your Head of Growth JD line by line, and reverse engineered every growth gap from your OSS funnel to your events strategy. This took hours, not minutes.</p></div>
+<p class="rv" style="font-size:.95rem;font-weight:600;margin-top:12px">The package itself is the proof. If this is what I give away for free, imagine what happens when we actually work together.</p>
+</div></section>
+
+<!-- CARD 5: THE GIFT -->
+<section class="alt" id="s5"><div class="w">
+<span class="label rv">The Gift</span>
+<h2 class="rv">What QuestDB Gets at No Cost</h2>
+<p class="rv d1">A complete <strong>OSS to Enterprise Growth Audit and Launch Playbook</strong> showing exactly how to convert open source traction into capital markets enterprise pipeline.</p>
+<div class="steps rv d2">
+<div class="stp"><div class="stp-c"><h3>Full AAA Diagnostic</h3><p>Attraction, Alignment, Activation scored across your current growth motion</p></div></div>
+<div class="stp"><div class="stp-c"><h3>OSS Funnel Architecture</h3><p>GitHub star to Docker pull to Cloud trial to enterprise conversation mapped</p></div></div>
+<div class="stp"><div class="stp-c"><h3>Capital Markets ABM Programme Design</h3><p>500 addressable accounts across banks, hedge funds, exchanges, and crypto platforms</p></div></div>
+<div class="stp"><div class="stp-c"><h3>Competitive Battle Cards</h3><p>QuestDB vs kdb+ vs InfluxDB for different buyer personas</p></div></div>
+<div class="stp"><div class="stp-c"><h3>Sample Outbound Sequences</h3><p>Targeting heads of trading technology at Tier 1 and Tier 2 banks</p></div></div>
+<div class="stp"><div class="stp-c"><h3>90 Day Growth Plan</h3><p>Weekly milestones from instrumentation to first pipeline metrics</p></div></div>
+<div class="stp"><div class="stp-c"><h3>Events Calendar Architecture</h3><p>TradingTech, QuantMinds, FIX Trading, and STAC conference presence</p></div></div>
+</div>
+<p class="rv d3" style="font-size:.88rem;color:var(--g5)">This is not a proposal. It is a working playbook. You could hand this to your new Head of Growth on day one and they would know exactly what to build.</p>
+</div></section>
+
+<!-- CARD 6: CTA -->
+<section class="dark" id="s6"><div class="w" style="text-align:center">
+<h2 class="rv">2 Options To Get Started</h2>
+<div class="ctg rv d1">
+<div class="ctc"><h3>Just Reply</h3><p>Write back with any questions about the audit findings. I will send you the complete OSS to enterprise growth architecture in a format your team can action immediately.</p><a class="btn b-gh" href="mailto:">Reply to Email</a></div>
+<div class="ctc"><h3>Book A Call</h3><p>15 minutes. I will walk you through the audit findings live and show you exactly how the growth engine would work for QuestDB.</p><a class="btn b-ne" href="https://cal.com/jean-m-8f4kbr/15min" target="_blank">Book 15 Minutes</a></div>
+</div>
+<p class="rv d2" style="margin-top:16px;font-size:.82rem;color:var(--g4)">Either way, the audit is yours to keep. Use it however serves QuestDB best.</p>
+</div></section>
+
+<!-- CARD 7: AAA — ATTRACTION -->
+<section id="s7"><div class="w">
+<span class="label rv">OSS to Enterprise Growth Audit</span>
+<h2 class="rv">Layer 1: Attraction — How QuestDB Gets Attention Today</h2>
+<div class="rv"><span class="tl red"><span class="dot"></span>RED — Attraction Score: 3 out of 10</span></div>
+<table class="rv d1" style="margin-top:16px">
+<thead><tr><th>Signal</th><th>Status</th><th>Finding</th></tr></thead>
+<tbody>
+<tr><td><strong>Outbound (ABM)</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Not Active</span></td><td>Capital markets is a small, knowable market (~500 accounts). No outbound programme targeting heads of trading tech, data platform leads, or quant engineering managers.</td></tr>
+<tr><td><strong>Paid Search (Google)</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Not Active</span></td><td>"kdb+ alternative," "time series database for trading," "tick data platform" — high intent searches with zero capture.</td></tr>
+<tr><td><strong>Paid Social (LinkedIn)</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Not Active</span></td><td>Capital markets decision makers are on LinkedIn. No ads running.</td></tr>
+<tr><td><strong>Content Marketing</strong></td><td><span class="tl yel" style="font-size:.65rem"><span class="dot"></span>Technical Only</span></td><td>Blog has benchmark posts (strong) but nothing targeting enterprise buyers. No capital markets specific content.</td></tr>
+<tr><td><strong>Events and Conferences</strong></td><td><span class="tl yel" style="font-size:.65rem"><span class="dot"></span>Ad Hoc</span></td><td>TradingTech Summit award winner but no owned events calendar, no systematic conference presence.</td></tr>
+<tr><td><strong>Developer Advocacy</strong></td><td><span class="tl yel" style="font-size:.65rem"><span class="dot"></span>Not Structured</span></td><td>17,000 stars, active Slack. No programme converting community engagement to enterprise signals.</td></tr>
+<tr><td><strong>PR and Analyst Relations</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Minimal</span></td><td>TradingTech award but no systematic PR. No Gartner or Forrester analyst engagement.</td></tr>
+</tbody>
+</table>
+<div class="callout rv d2"><p><strong>Analysis:</strong> QuestDB's attraction comes from organic developer discovery: GitHub stars, word of mouth, and technical blog posts. This works for developer adoption. It does not work for enterprise sales. A head of trading technology at a Tier 1 bank is not searching GitHub for database solutions. They need to be reached through ABM, events, and analyst validation.</p></div>
+</div></section>
+
+<!-- CARD 8: AAA — ALIGNMENT -->
+<section class="alt" id="s8"><div class="w">
+<h2 class="rv">Layer 2: Alignment — Converting Interest to Pipeline</h2>
+<div class="rv"><span class="tl yel"><span class="dot"></span>YELLOW — Alignment Score: 5 out of 10</span></div>
+<table class="rv d1" style="margin-top:16px">
+<thead><tr><th>Signal</th><th>Status</th><th>Finding</th></tr></thead>
+<tbody>
+<tr><td><strong>OSS Funnel Instrumentation</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Not Instrumented</span></td><td>17,000 stars, unknown Docker pull conversion, unknown Cloud trial conversion, unknown enterprise conversion.</td></tr>
+<tr><td><strong>Capital Markets Landing Page</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Does Not Exist</span></td><td>Quant engineers and heads of trading tech see the same page as IoT developers.</td></tr>
+<tr><td><strong>Enterprise Pricing</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Hidden</span></td><td>No indicative pricing, no TCO comparison vs kdb+, no ROI calculator.</td></tr>
+<tr><td><strong>Lead Scoring</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Does Not Exist</span></td><td>A developer running QuestDB on production tick data at a bank looks identical to a hobbyist.</td></tr>
+<tr><td><strong>Gated Content</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>None</span></td><td>No capital markets white papers, no regulatory guides, no switching playbooks.</td></tr>
+<tr><td><strong>Pipeline Attribution</strong></td><td><span class="tl red" style="font-size:.65rem"><span class="dot"></span>Does Not Exist</span></td><td>Cannot measure source to adoption to closed won.</td></tr>
+</tbody>
+</table>
+<div class="bl rv d2">
+<h3>THE BIGGEST ALIGNMENT GAP</h3>
+<p>QuestDB has 17,000 GitHub stars. Conversion rate to active usage? Unknown. Production tick data workloads at banks look identical to hobby projects. No usage based intent scoring. No trigger connects high usage OSS deployments to an enterprise sales conversation. Every visitor sees the same homepage regardless of whether they process tick data or IoT sensor data.</p>
+</div>
+<div class="callout rv d3">
+<p><strong>Funnel Leak Map:</strong></p>
+<p style="font-size:.82rem;font-family:monospace;line-height:1.8">GITHUB STAR &rarr; Docker Pull &rarr; Self-Hosted &rarr; Cloud Trial? &rarr; ??? &rarr; Enterprise<br><br>Leak 1: GitHub to Docker is untracked. 17,000 stars. Conversion rate to active usage? Unknown.<br>Leak 2: No product qualified lead signals. Production tick data workloads at banks look identical to hobby projects.<br>Leak 3: No enterprise conversion path. No trigger connects high usage OSS deployments to enterprise conversation.<br>Leak 4: No capital markets entry point. Every visitor sees the same homepage.</p>
+</div>
+</div></section>
+
+<!-- CARD 9: AAA — ACTIVATION -->
+<section id="s9"><div class="w">
+<h2 class="rv">Layer 3: Activation — How QuestDB Closes</h2>
+<div class="rv"><span class="tl grn"><span class="dot"></span>GREEN — Activation Score: 8 out of 10</span></div>
+<div class="cg rv d1">
+<div class="cd" style="border-left:3px solid var(--grn)"><h3>What Works</h3>
+<p>Exceptional performance: 8 million rows per second ingestion (verified benchmarks). SQL native: zero learning curve for database engineers (unlike kdb+'s proprietary q language). Tier 1 reference customers: Mizuho, B3 Exchange, HDFC Bank. SOC 2 compliance and 99.9% uptime SLA. AWS Marketplace listing (enterprise procurement friendly). Open source with Apache 2.0 (no vendor lock in). TradingTech Summit Best Trading Analytics Platform award.</p></div>
+<div class="cd" style="border-left:3px solid var(--red)"><h3>What Is Missing</h3>
+<p>No capital markets specific sales collateral. No competitive battle cards (QuestDB vs kdb+ for C level buyers). No TCO calculator (kdb+ costs millions — make the comparison easy). No enterprise migration playbook (switching from kdb+ or InfluxDB).</p></div>
+</div>
+<div class="bl rv d2">
+<h3>THE BIGGEST LEAK</h3>
+<p>The gap between product excellence and enterprise distribution in capital markets. QuestDB has the fastest time series database. Tier 1 banks in production. The TradingTech award. 17,000 GitHub stars. Benchmarks that embarrass every competitor. But heads of trading technology at banks do not know this. Data platform leads at hedge funds do not know this. Quant engineering managers at exchanges do not know this. Because QuestDB has no outbound, no ABM, no events calendar, and no systematic funnel from open source adoption to enterprise deal. QuestDB is winning on product. kdb+ is winning on distribution. The growth engine to close that gap is the build.</p>
+</div>
+</div></section>
+
+<!-- CARD 10: MONEY LEVERS -->
+<section class="alt" id="s10"><div class="w">
+<span class="label rv">High Impact Fixes</span>
+<h2 class="rv">6 Money Levers for QuestDB</h2>
+<p class="rv d1">Each lever addresses a specific gap identified in the audit.</p>
+<table class="rv d2">
+<thead><tr><th>Lever</th><th>Current State</th><th>Fix</th><th>Est. Impact</th></tr></thead>
+<tbody>
+<tr><td><strong>OSS Funnel Instrumentation</strong></td><td>Not instrumented</td><td>Track GitHub star to Docker pull to Cloud trial to Enterprise. Product qualified lead signals</td><td class="impact">Foundation: cannot optimise what you cannot measure</td></tr>
+<tr><td><strong>Capital Markets ABM</strong></td><td>Not active</td><td>200 target accounts, buying committee mapping, personalised outreach to heads of trading tech</td><td class="impact">Est. 5 to 10 enterprise conversations per quarter</td></tr>
+<tr><td><strong>Events Calendar</strong></td><td>Ad hoc</td><td>Own QuestDB's presence at TradingTech, QuantMinds, FIX Trading, STAC. Host quarterly virtual roundtables</td><td class="impact">Est. 3 to 5 enterprise conversations per event</td></tr>
+<tr><td><strong>kdb+ Displacement Content</strong></td><td>None</td><td>"QuestDB vs kdb+" comparison page, TCO calculator, migration guide</td><td class="impact">Captures demand during every kdb+ renewal cycle</td></tr>
+<tr><td><strong>Pipeline Attribution</strong></td><td>Does not exist</td><td>Source to OSS adoption to SQL to closed won tracking</td><td class="impact">Enables data driven growth investment</td></tr>
+<tr><td><strong>Developer Advocate Programme</strong></td><td>Not structured</td><td>Convert community engagement into enterprise signals. Identify developers at target accounts</td><td class="impact">Est. 30 to 50% of enterprise conversations from bottom up adoption</td></tr>
+</tbody>
+</table>
+</div></section>
+
+<!-- CARD 11: FUNNEL CASCADE -->
+<section id="s11"><div class="w">
+<span class="label rv">Funnel Cascade</span>
+<h2 class="rv">How QuestDB Gets More Enterprise Customers and Converts Them</h2>
+
+<h3 class="rv" style="margin-top:16px">Top of Funnel: Getting Found by Enterprise Buyers</h3>
+<table class="rv d1">
+<thead><tr><th>What Is Missing</th><th>What We Install</th></tr></thead>
+<tbody>
+<tr><td>No outbound or ABM targeting capital markets</td><td>Capital markets ABM targeting 500 accounts. LinkedIn Ads reaching heads of trading tech. Events calendar at TradingTech, QuantMinds, and FIX Trading</td></tr>
+<tr><td>Zero paid media capture on high intent searches</td><td>Google Ads on "kdb+ alternative," "time series database for trading." kdb+ displacement content</td></tr>
+<tr><td>Developer focused content only</td><td>Capital markets specific thought leadership targeting enterprise buyers, not just developers</td></tr>
+</tbody>
+</table>
+
+<h3 class="rv d2" style="margin-top:24px">Middle of Funnel: Converting Developer Adoption to Enterprise Interest</h3>
+<table class="rv d2">
+<thead><tr><th>What Is Missing</th><th>What We Install</th></tr></thead>
+<tbody>
+<tr><td>OSS funnel not instrumented</td><td>Full instrumentation: GitHub to Docker to Cloud to Enterprise. Product qualified lead signals based on usage volume and query patterns</td></tr>
+<tr><td>No capital markets landing page</td><td>Capital markets landing page with Mizuho, B3, and HDFC proof points. Tailored messaging for enterprise buyers</td></tr>
+<tr><td>No gated content for enterprise buyers</td><td>Gated content: kdb+ migration guide, tick data architecture white paper, regulatory compliance guide</td></tr>
+</tbody>
+</table>
+
+<h3 class="rv d3" style="margin-top:24px">Bottom of Funnel: Closing Enterprise Deals</h3>
+<table class="rv d3">
+<thead><tr><th>What Is Missing</th><th>What We Install</th></tr></thead>
+<tbody>
+<tr><td>No capital markets specific sales collateral</td><td>Competitive battle cards (QuestDB vs kdb+ for C level, QuestDB vs InfluxDB for platform teams)</td></tr>
+<tr><td>No TCO comparison tools</td><td>TCO calculator comparing QuestDB Enterprise vs kdb+ annual cost. Enterprise switching playbook</td></tr>
+<tr><td>No structured expansion programme</td><td>Customer expansion: single use case to multi use case. Reference customer programme with case studies and analyst briefings</td></tr>
+</tbody>
+</table>
+</div></section>
+
+<!-- CARD 12: FULL FUNNEL VIEW -->
+<section class="dark" id="s12"><div class="w">
+<span class="label rv">The Full Picture</span>
+<h2 class="rv">How Every Piece Connects: Full Funnel View</h2>
+<p class="sub rv d1">Every recommendation in this package maps to a stage in QuestDB's enterprise acquisition journey. Here is how each piece moves enterprise buyers from "never heard of QuestDB" to "signed and deployed."</p>
+
+<div style="margin:28px 0" class="rv d2">
+
+<!-- TOP OF FUNNEL -->
+<div style="padding:24px;border-radius:10px 10px 0 0;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-bottom:0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+<div style="font-size:1rem;font-weight:800;color:var(--red)">Top of Funnel</div>
+<div style="font-size:.7rem;padding:3px 10px;border-radius:4px;background:rgba(239,68,68,.12);color:var(--red);font-weight:600">GETTING FOUND — 3/10</div>
+</div>
+<p style="font-size:.85rem;color:var(--g4);margin-bottom:12px">Head of trading tech at a Tier 1 bank searches "kdb+ alternative." Currently: finds InfluxDB and TimescaleDB. Not QuestDB.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What we install:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>Capital markets ABM (500 accounts)</li>
+<li>LinkedIn Ads for trading tech leaders</li>
+<li>Google Ads on kdb+ alternative searches</li>
+<li>Events calendar (TradingTech, QuantMinds)</li>
+</ul>
+</div>
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What is missing now:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>No outbound or ABM programme</li>
+<li>No paid media running</li>
+<li>No systematic events presence</li>
+<li>No analyst relations</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div style="text-align:center;padding:6px 0;background:var(--dk-s);font-size:.9rem;color:var(--g4)">&#8595;</div>
+
+<!-- MIDDLE OF FUNNEL -->
+<div style="padding:24px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-bottom:0;border-top:0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+<div style="font-size:1rem;font-weight:800;color:var(--amb)">Middle of Funnel</div>
+<div style="font-size:.7rem;padding:3px 10px;border-radius:4px;background:rgba(245,158,11,.12);color:var(--amb);font-weight:600">CONVERTING INTEREST — 5/10</div>
+</div>
+<p style="font-size:.85rem;color:var(--g4);margin-bottom:12px">Developer at a bank deploys QuestDB for tick data. No signal fires. No enterprise conversation starts. The deployment is invisible.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What we install:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>OSS funnel instrumentation end to end</li>
+<li>Product qualified lead signals</li>
+<li>Capital markets landing page</li>
+<li>Gated content (kdb+ migration guide)</li>
+</ul>
+</div>
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What is missing now:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>OSS funnel not instrumented</li>
+<li>No lead scoring or intent signals</li>
+<li>No capital markets entry point</li>
+<li>No pipeline attribution</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div style="text-align:center;padding:6px 0;background:var(--dk-s);font-size:.9rem;color:var(--g4)">&#8595;</div>
+
+<!-- BOTTOM OF FUNNEL -->
+<div style="padding:24px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-bottom:0;border-top:0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+<div style="font-size:1rem;font-weight:800;color:var(--grn)">Bottom of Funnel</div>
+<div style="font-size:.7rem;padding:3px 10px;border-radius:4px;background:rgba(34,197,94,.1);color:var(--grn);font-weight:600">CLOSING DEALS — 8/10</div>
+</div>
+<p style="font-size:.85rem;color:var(--g4);margin-bottom:12px">When QuestDB gets into a technical evaluation, the benchmarks win. Product excellence closes deals. 8 million rows per second. SQL native. Open source.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What we install:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>Competitive battle cards per persona</li>
+<li>TCO calculator (vs kdb+)</li>
+<li>Enterprise switching playbook</li>
+<li>Capital markets sales collateral</li>
+</ul>
+</div>
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What is missing now:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>No competitive battle cards</li>
+<li>No TCO comparison tools</li>
+<li>No migration playbook</li>
+<li>No capital markets collateral</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div style="text-align:center;padding:6px 0;background:var(--dk-s);font-size:.9rem;color:var(--g4)">&#8595;</div>
+
+<!-- SALE -->
+<div style="padding:24px;border-radius:0 0 10px 10px;background:rgba(255,204,137,.06);border:1px solid rgba(255,204,137,.12);border-top:0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+<div style="font-size:1rem;font-weight:800;color:var(--ne)">Sale</div>
+<div style="font-size:.7rem;padding:3px 10px;border-radius:4px;background:rgba(255,204,137,.1);color:#b8860b;font-weight:600">EXPAND AND RETAIN</div>
+</div>
+<p style="font-size:.85rem;color:var(--g4);margin-bottom:12px">Enterprise customer signed and deployed. Expand from single use case to multi use case. Turn Mizuho, B3, and HDFC into reference customers driving more enterprise credibility.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What we install:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>Customer expansion programme</li>
+<li>Reference customer programme</li>
+<li>Cross sell from OSS to Cloud to Enterprise</li>
+<li>Analyst briefings and speaking slots</li>
+</ul>
+</div>
+<div style="padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.8rem">
+<strong style="color:var(--wh);font-size:.75rem">What is missing now:</strong>
+<ul style="margin:6px 0 0 14px;font-size:.78rem;color:var(--g4)">
+<li>No structured expansion programme</li>
+<li>No reference customer programme</li>
+<li>No cross sell triggers</li>
+<li>No analyst engagement</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+<p class="tagline rv" style="margin-top:16px">This is how every enterprise buyer moves from "never heard of QuestDB" to "signed, deployed, and expanding."</p>
+</div></section>
+
+<!-- CARD 13: COMPETITIVE MAP -->
+<section id="s13"><div class="w">
+<span class="label rv">Competitive Landscape</span>
+<h2 class="rv">Where QuestDB Stands</h2>
+<div style="overflow-x:auto" class="rv d1">
+<table>
+<thead><tr><th>Capability</th><th style="background:var(--dk)">QuestDB</th><th>kdb+ (KX)</th><th>InfluxDB</th><th>TimescaleDB</th><th>ClickHouse</th></tr></thead>
+<tbody>
+<tr><td><strong>Ingestion Speed</strong></td><td>8M rows/sec</td><td>Fast (proprietary)</td><td>12 to 36x slower</td><td>6 to 13x slower</td><td>Comparable</td></tr>
+<tr><td><strong>Query Language</strong></td><td>SQL (standard)</td><td>q (proprietary)</td><td>InfluxQL / SQL</td><td>SQL</td><td>SQL</td></tr>
+<tr><td><strong>Open Source</strong></td><td>Yes (Apache 2.0)</td><td>No (proprietary)</td><td>Partially</td><td>Yes (Apache 2.0)</td><td>Yes</td></tr>
+<tr><td><strong>Capital Markets Presence</strong></td><td>Growing (Mizuho, B3, HDFC)</td><td>Dominant (30 years)</td><td>Minimal</td><td>Minimal</td><td>Growing</td></tr>
+<tr><td><strong>Enterprise Sales Motion</strong></td><td>None (first growth hire)</td><td>Dedicated sales teams</td><td>Enterprise sales</td><td>Enterprise sales</td><td>Enterprise sales</td></tr>
+<tr><td><strong>Vendor Lock In</strong></td><td>None</td><td>High</td><td>Medium</td><td>Low</td><td>Low</td></tr>
+<tr><td><strong>Pricing</strong></td><td>Not published</td><td>Millions per year</td><td>Tiered</td><td>Tiered</td><td>Open source plus cloud</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout rv d2"><p><strong>The paradox:</strong> QuestDB has the best product for capital markets time series workloads. Faster than InfluxDB. Open and SQL native unlike kdb+. Parquet compatible unlike legacy systems. But kdb+ wins enterprise deals because they have 30 years of relationships, dedicated sales teams in every bank, and deep integration with trading floors. QuestDB wins every benchmark. kdb+ wins every RFP they show up to. The growth engine to close that gap is the build.</p></div>
+</div></section>
+
+<!-- CARD 14: THE GAP -->
+<section class="alt" id="s14"><div class="w">
+<span class="label rv">Strategic Opportunity</span>
+<h2 class="rv">The Gap Nobody Else Is Filling</h2>
+<p class="rv d1"><strong>No open source time series database has built a capital markets specific go to market.</strong></p>
+<p class="rv d2">InfluxDB targets monitoring and IoT. TimescaleDB targets PostgreSQL shops. ClickHouse targets analytics teams. kdb+ owns capital markets but charges millions and locks you in. Nobody is building the "open source time series database for trading floors." Nobody is targeting heads of trading technology with ABM. Nobody is running events at TradingTech Summit and QuantMinds with a systematic presence. Nobody is building the kdb+ displacement playbook.</p>
+<div class="callout rv d3"><p>QuestDB already serves capital markets. You already have Mizuho, B3, and HDFC in production. You already won the TradingTech award. The benchmarks prove you are faster than every competitor on ingestion and analytical queries.</p>
+<p>The company that builds capital markets specific go to market for time series databases will own the category. Right now, that company should be QuestDB.</p></div>
+</div></section>
+
+<!-- CARD 15: 90 DAY OVERVIEW -->
+<section id="s15"><div class="w">
+<span class="label rv">Growth Roadmap</span>
+<h2 class="rv">How This Playbook Drives Enterprise Pipeline</h2>
+<p class="rv d1">A week by week view of what gets built and which funnel stage it activates.</p>
+<table class="rv d2">
+<thead><tr><th>Week</th><th>What It Does</th><th>Funnel Stage</th></tr></thead>
+<tbody>
+<tr><td><strong>Weeks 1 to 2</strong></td><td>Instrument OSS funnel, define product qualified lead signals, map 200 capital markets target accounts</td><td>Foundation</td></tr>
+<tr><td><strong>Weeks 3 to 4</strong></td><td>Build capital markets landing page, create kdb+ comparison content, set up pipeline attribution</td><td>Top of Funnel</td></tr>
+<tr><td><strong>Weeks 5 to 6</strong></td><td>Launch LinkedIn Ads, publish 4 capital markets articles, launch first ABM campaign to 25 banks</td><td>Top and Middle</td></tr>
+<tr><td><strong>Weeks 7 to 8</strong></td><td>Launch Google Ads on "kdb+ alternative," build battle cards, start developer advocate outreach</td><td>Middle and Bottom</td></tr>
+<tr><td><strong>Weeks 9 to 10</strong></td><td>Review data, A/B test landing page, host first "QuestDB for Capital Markets" virtual roundtable</td><td>Optimisation</td></tr>
+<tr><td><strong>Weeks 11 to 12</strong></td><td>Report metrics, document playbook, plan events calendar, set quarterly review</td><td>Scale</td></tr>
+</tbody>
+</table>
+</div></section>
+
+<!-- CARD 16: 90 DAY PLAN WEEKS 1-6 -->
+<section class="alt" id="s16"><div class="w">
+<span class="label rv">90 Day Roadmap</span>
+<h2 class="rv">OSS to Enterprise Growth Plan: Weeks 1 to 6</h2>
+
+<div class="wk rv"><div class="wn">Week 1 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,97,0,.1);color:var(--or)">FOUNDATION</span></div><h3>Instrument the OSS Funnel</h3><p>GitHub star to Docker pull to Cloud signup to Enterprise inquiry. Define product qualified lead signals (data volume thresholds, query complexity, production deployment patterns).</p></div>
+
+<div class="wk rv"><div class="wn">Week 2 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,97,0,.1);color:var(--or)">FOUNDATION</span></div><h3>Map the Capital Markets Addressable Market</h3><p>200 target accounts across Tier 1 banks, Tier 2 banks, hedge funds, exchanges, and crypto platforms. Map buying committees (head of trading tech, data platform lead, quant engineering manager).</p></div>
+
+<div class="wk rv"><div class="wn">Week 3 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(245,158,11,.1);color:var(--amb)">BUILD</span></div><h3>Capital Markets Landing Page</h3><p>Build capital markets landing page with Mizuho, B3, and HDFC logos. Tailored messaging for enterprise buyers: "The performance of kdb+ without the lock in." Set up pipeline attribution tracking.</p></div>
+
+<div class="wk rv"><div class="wn">Week 4 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(245,158,11,.1);color:var(--amb)">BUILD</span></div><h3>kdb+ Displacement Content</h3><p>"QuestDB vs kdb+: Performance, Cost, and Lock In." Include benchmarks, TCO analysis, SQL vs q comparison, and migration path. Build first gated asset: "Tick Data Architecture on QuestDB."</p></div>
+
+<div class="wk rv"><div class="wn">Week 5 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(34,197,94,.1);color:var(--grn)">LAUNCH</span></div><h3>LinkedIn Ads Live</h3><p>Launch LinkedIn Ads targeting heads of trading technology and data platform leads at target banks. A/B test 3 ad variations. Budget: £2,000 to £3,000 per month.</p></div>
+
+<div class="wk rv"><div class="wn">Week 6 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(34,197,94,.1);color:var(--grn)">LAUNCH</span></div><h3>Content and First ABM Campaign</h3><p>Publish 4 capital markets articles: "Why Banks Are Moving Off kdb+," "Tick Data at Scale: Benchmarks That Matter," "SQL vs q: Why Your Quant Team Prefers SQL," "Market Surveillance on QuestDB." Launch first ABM campaign targeting 25 heads of trading tech at Tier 1 banks.</p></div>
+</div></section>
+
+<!-- CARD 17: 90 DAY PLAN WEEKS 7-12 -->
+<section id="s17"><div class="w">
+<h2 class="rv">OSS to Enterprise Growth Plan: Weeks 7 to 12</h2>
+
+<div class="wk rv"><div class="wn">Week 7 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(34,197,94,.1);color:var(--grn)">SCALE</span></div><h3>Google Ads Launch</h3><p>Launch Google Ads on "kdb+ alternative," "time series database for trading," "tick data platform." Budget: £1,500 to £2,500 per month.</p></div>
+
+<div class="wk rv"><div class="wn">Week 8 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(34,197,94,.1);color:var(--grn)">SCALE</span></div><h3>Battle Cards and TCO Calculator</h3><p>Build competitive battle cards: QuestDB vs kdb+ (for C level buyers), QuestDB vs InfluxDB (for platform teams), QuestDB vs TimescaleDB (for PostgreSQL shops). Build TCO calculator comparing QuestDB Enterprise vs kdb+ annual cost.</p></div>
+
+<div class="wk rv"><div class="wn">Week 9 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(245,158,11,.1);color:var(--amb)">OPTIMISE</span></div><h3>30 Day Data Review</h3><p>Review 30 day performance data: OSS funnel conversion rates, ABM response rates, content engagement, enterprise conversations generated. A/B test capital markets landing page.</p></div>
+
+<div class="wk rv"><div class="wn">Week 10 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,204,137,.1);color:#b8860b">EXPAND</span></div><h3>Virtual Roundtable</h3><p>Host first "QuestDB for Capital Markets" virtual roundtable. Invite a Mizuho or B3 speaker. Target 50 heads of trading tech as attendees. Post event nurture sequence.</p></div>
+
+<div class="wk rv"><div class="wn">Week 11 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,204,137,.1);color:#b8860b">EXPAND</span></div><h3>ABM Expansion and Events Planning</h3><p>Expand ABM to next 25 accounts. Expand capital markets content to 2 articles per week. Identify speaking slots at TradingTech Summit, QuantMinds, and FIX Trading Community for next quarter.</p></div>
+
+<div class="wk rv"><div class="wn">Week 12 <span style="float:right;font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,204,137,.1);color:#b8860b">HANDOVER</span></div><h3>Pipeline Report and Playbook Handoff</h3><p>Report first growth metrics to leadership: enterprise pipeline generated, OSS funnel conversion rates, channel attribution, CAC per enterprise conversation. Document repeatable capital markets ABM playbook. Set up quarterly growth review cadence.</p></div>
+
+<div class="qw rv">
+<h3>Quick Wins (Starting Now)</h3>
+<ul>
+<li>Activate the TradingTech award on your homepage hero. Third party validation from a capital markets event is gold. Right now it is buried.</li>
+<li>Build the kdb+ comparison page. Every bank has a renewal cycle. "QuestDB vs kdb+" is a high intent search with zero competition.</li>
+<li>Map 50 kdb+ users at target banks. They post on Stack Overflow, list q/kdb+ on LinkedIn profiles, and present at KX conferences. These are the technical champions who can evaluate QuestDB.</li>
+</ul>
+</div>
+</div></section>
+
+<!-- CARD 18: SAMPLE EMAILS -->
+<section class="alt" id="s18"><div class="w">
+<span class="label rv">Sample Deliverable</span>
+<h2 class="rv">Capital Markets Email Sequences</h2>
+<p class="rv d1">Nicolas, here are sample emails your growth team could send to heads of trading technology at Tier 1 banks. These demonstrate what capital markets specific outbound looks like.</p>
+
+<div style="background:var(--wh);border:1px solid #e5e7eb;border-radius:10px;padding:22px;margin:16px 0" class="rv d2">
+<div style="font-size:.68rem;font-weight:700;color:var(--or);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Email 1: Head of Trading Tech — Trigger Angle</div>
+<p style="font-size:.88rem;font-weight:700;margin-bottom:12px">Subject: QuestDB's TradingTech win and your tick data stack</p>
+<p style="font-size:.85rem;color:var(--g5)">[First Name], QuestDB won Best Trading Analytics Platform at TradingTech Summit Europe. 8 million rows per second ingestion. SQL native, no proprietary query language. Open source.</p>
+<p style="font-size:.85rem;color:var(--g5)">Three banks already run it in production for tick data, market surveillance, and post trade analytics. No kdb+ license fees. No vendor lock in.</p>
+<p style="font-size:.85rem;color:var(--g5);font-weight:600">Your quant team can evaluate it in a day. Shall I send the benchmark comparison against your current stack?</p>
+</div>
+
+<div style="background:var(--wh);border:1px solid #e5e7eb;border-radius:10px;padding:22px;margin:16px 0" class="rv d3">
+<div style="font-size:.68rem;font-weight:700;color:var(--or);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Email 2: Data Platform Lead — Friction Angle</div>
+<p style="font-size:.88rem;font-weight:700;margin-bottom:12px">Subject: your tick data costs versus QuestDB's benchmarks</p>
+<p style="font-size:.85rem;color:var(--g5)">[First Name], kdb+ licenses cost millions per year. The query language (q) requires specialist developers. Vendor lock in means switching is painful.</p>
+<p style="font-size:.85rem;color:var(--g5)">QuestDB ingests 8 million rows per second, uses standard SQL, and is open source. Three Tier 1 banks run it in production today. B3 Exchange processes 5,000 plus queries per second sustained.</p>
+<p style="font-size:.85rem;color:var(--g5);font-weight:600">One question: what does your current tick data infrastructure cost annually? I have a TCO comparison that makes the numbers clear.</p>
+</div>
+</div></section>
+
+<!-- CARD 19: KEY RESULTS -->
+<section class="dark" id="s19"><div class="w">
+<span class="label rv">Expected Results</span>
+<h2 class="rv">What QuestDB Can Expect</h2>
+
+<h3 class="rv d1" style="color:var(--ne);margin-top:16px">30 Day Results</h3>
+<div class="mc rv d1">
+<div class="mt"><div class="mn">Live</div><div class="ml">OSS funnel instrumented end to end</div></div>
+<div class="mt"><div class="mn">1</div><div class="ml">Capital markets landing page with Mizuho, B3, HDFC proof</div></div>
+<div class="mt"><div class="mn">200</div><div class="ml">Target accounts mapped with buying committee contacts</div></div>
+</div>
+
+<h3 class="rv d2" style="color:var(--ne);margin-top:24px">90 Day Results</h3>
+<div class="mc rv d2">
+<div class="mt"><div class="mn">5-10</div><div class="ml">Enterprise conversations from capital markets ABM</div></div>
+<div class="mt"><div class="mn">3-5</div><div class="ml">Enterprise conversations per event</div></div>
+<div class="mt"><div class="mn">Live</div><div class="ml">Pipeline attribution tracking (source to closed won)</div></div>
+</div>
+
+<h3 class="rv d3" style="color:var(--ne);margin-top:24px">12 Month Results</h3>
+<div class="mc rv d3">
+<div class="mt"><div class="mn">50+</div><div class="ml">Enterprise conversations annually from capital markets</div></div>
+<div class="mt"><div class="mn">Active</div><div class="ml">kdb+ displacement programme during every renewal cycle</div></div>
+<div class="mt"><div class="mn">Default</div><div class="ml">QuestDB positioned as default time series DB for capital markets</div></div>
+</div>
+</div></section>
+
+<!-- CARD 20: CASE STUDY -->
+<section id="s20"><div class="w">
+<span class="label rv">Proof</span>
+<h2 class="rv">Case Study: £30M Pipeline in 30 Days</h2>
+<div class="cs rv d1">
+<div class="cs-p ctx"><h3>Context</h3><p>Santander Private Banking needed to reach High Net Worth Individuals for their private banking services. Traditional broad marketing was generating volume but not the right quality.</p></div>
+<div class="cs-p act"><h3>Action</h3><p>I designed a hyper targeted LinkedIn campaign that identified HNWI behavioural signals and served personalised content sequences. The campaign replaced broad targeting with signal based precision. 38 new HNWI clients acquired in 30 days.</p></div>
+<div class="cs-p res"><h3>Result</h3><p><strong>£30 million pipeline generated. 7x the results of the previous approach.</strong> The methodology: identify the exact buyer profile, build content that speaks their language, deliver it through the channel where they actually engage.</p></div>
+</div>
+<div class="callout rv d2"><p><strong>Why this matters for QuestDB:</strong> Capital markets enterprise sales is the same principle. The addressable market is small (approximately 500 accounts globally). The deal values are high. The buyers are senior and specific (heads of trading tech, data platform leads, quant engineering managers). Broad marketing does not reach them. Signal based, account level targeting does. The methodology that generated £30 million for Santander is the same framework that would generate enterprise pipeline for QuestDB.</p></div>
+</div></section>
+
+<!-- CARD 21: GROWTH FEEDBACK LOOPS -->
+<section class="dark" id="s21"><div class="w">
+<span class="label rv">How It Compounds</span>
+<h2 class="rv">The Growth Feedback Loop</h2>
+<p class="sub rv">Not a one time project. A system that gets smarter with every enterprise deal closed.</p>
+
+<div class="mf rv d1">
+<div class="ms"><div class="msn">1</div><h3>Test</h3><p>Launch ABM campaign or content</p></div>
+<div class="ma">&#8594;</div>
+<div class="ms"><div class="msn">2</div><h3>Measure</h3><p>Track OSS funnel metrics</p></div>
+<div class="ma">&#8594;</div>
+<div class="ms"><div class="msn">3</div><h3>Learn</h3><p>Which channel? Which accounts?</p></div>
+<div class="ma">&#8594;</div>
+<div class="ms"><div class="msn">4</div><h3>Scale</h3><p>3x budget on winners</p></div>
+<div class="ma">&#8594;</div>
+<div class="ms"><div class="msn">5</div><h3>Document</h3><p>Playbook for next quarter</p></div>
+</div>
+
+<div class="callout rv d2" style="margin-top:20px;background:rgba(255,204,137,.04);border-color:rgba(255,204,137,.2)">
+<p style="font-size:.85rem"><strong>Loop 1: OSS to Enterprise Conversion Loop.</strong> Developer stars QuestDB on GitHub. Downloads and runs it locally. Deploys to production for tick data workload at a bank. Usage signals trigger enterprise conversation. Enterprise deal closes. New reference customer creates case study. Case study drives more enterprise credibility. More credibility drives more developer adoption at banks. Each enterprise deal accelerates the next.</p>
+</div>
+<div class="callout rv d3" style="margin-top:12px;background:rgba(255,97,0,.04);border-color:rgba(255,97,0,.2)">
+<p style="font-size:.85rem"><strong>Loop 2: kdb+ Displacement Loop.</strong> kdb+ comparison content ranks for "kdb+ alternative." Head of trading tech finds QuestDB during contract renewal. Benchmark comparison proves superior performance. SQL native eliminates q language barrier. Open source eliminates vendor lock in fear. kdb+ displacement deal closes. Case study feeds more comparison content. Content captures more renewal cycle searches. Each displacement deal makes the next one easier.</p>
+</div>
+<div class="callout rv" style="margin-top:12px;background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.2)">
+<p style="font-size:.85rem"><strong>Loop 3: Test, Measure, Learn, Scale, Document.</strong> Every growth investment (ABM campaign, LinkedIn Ad, event sponsorship, content piece) is an experiment. Weekly: review OSS funnel metrics. Monthly: kill what does not convert, scale what does. Document the playbook. The Head of Growth walks into a system that improves every quarter because every action is measured.</p>
+</div>
+
+<p class="tagline rv" style="margin-top:16px">This is how QuestDB builds an enterprise pipeline engine that compounds. Not by waiting for developers to discover you on GitHub. By building a system that identifies, reaches, and converts the 500 accounts that matter.</p>
+</div></section>
+
+<!-- CARD 22: FAQ -->
+<section id="s22"><div class="w">
+<span class="label rv">Questions</span>
+<h2 class="rv">Frequently Asked Questions</h2>
+<div class="rv d1">
+<div class="fq"><div class="fq-q">Why is this free?<span class="ic">+</span></div><div class="fq-a">Because the package itself is the proof. If this growth audit gives QuestDB more clarity about OSS to enterprise conversion than anything you have seen from agencies or advisors, that tells you everything about what working together would look like.</div></div>
+<div class="fq"><div class="fq-q">What is the catch?<span class="ic">+</span></div><div class="fq-a">There is no catch. If the audit is useful, I would welcome 15 minutes to discuss implementation. If not, keep the research and build the growth engine yourselves.</div></div>
+<div class="fq"><div class="fq-q">Do we not just need the Head of Growth hire?<span class="ic">+</span></div><div class="fq-a">You absolutely need the hire. The question is whether that person spends 3 to 6 months building frameworks from scratch or walks into a functioning system with the OSS funnel instrumented, the ABM programme designed, and the playbook documented.</div></div>
+<div class="fq"><div class="fq-q">How is this different from an agency?<span class="ic">+</span></div><div class="fq-a">Agencies bill monthly and optimise for retention. I install assets you own. The OSS funnel architecture, the ABM programme, the battle cards, the pipeline attribution. All of it sits on your balance sheet permanently.</div></div>
+<div class="fq"><div class="fq-q">Do you understand capital markets?<span class="ic">+</span></div><div class="fq-a">I managed a £30 to 40 million marketing budget at Santander, one of the UK's most regulated financial institutions. Before that, BT (enterprise B2B with complex sales cycles). I understand regulated environments, long enterprise sales cycles, and technical buyer personas.</div></div>
+<div class="fq"><div class="fq-q">Can this work for a company our size?<span class="ic">+</span></div><div class="fq-a">MongoDB, Elastic, and Confluent all followed the same playbook: massive OSS traction, then systematic enterprise growth. QuestDB has 17,000 stars and Tier 1 bank deployments. The traction exists. The growth architecture to convert it is the build.</div></div>
+</div>
+</div></section>
+
+<!-- CARD 23: ABOUT JEAN -->
+<section class="alt" id="s23"><div class="w">
+<span class="label rv">About</span>
+<h2 class="rv">Jean Mundabi Fala</h2>
+<div class="ab rv d1">
+<div class="av">JM</div>
+<div class="ab-i">
+<h3>Jean Mundabi Fala</h3>
+<div class="role">CEO, MDB Growth Capital</div>
+<p style="font-size:.88rem">5 plus years building marketing effectiveness systems at enterprise scale. Santander: £30 to 40 million budget, £30 million Private Banking pipeline, team of 4 marketing specialists. BT: 15% SMB revenue growth, 25% lead acquisition improvement, built the single source of truth used by Marketing, Finance, and Commercial.</p>
+<p style="font-size:.88rem">Today: building go to market infrastructure for B2B companies. OSS to enterprise growth architecture, capital markets ABM programmes, and pipeline attribution systems that sit on the client's balance sheet permanently.</p>
+<a href="https://linkedin.com/in/jeanmundabi" target="_blank" class="ln-btn">Connect on LinkedIn</a>
+</div>
+</div>
+</div></section>
+
+<!-- CARD 24: THE OFFER -->
+<section class="dark" id="s24"><div class="w">
+<span class="label rv">The Offer</span>
+<h2 class="rv">Everything here is yours to keep.</h2>
+<p class="rv sub">Use the AAA Diagnostic. Implement the 90 day roadmap. Brief your Head of Growth with the capital markets playbook. Hand them the ABM programme design on day one. No strings attached.</p>
+<p class="rv d1" style="margin-top:16px"><strong>If you want to go further:</strong></p>
+<ul class="ol rv d2" style="margin:10px 0 20px">
+<li>Full OSS to enterprise growth installation across capital markets</li>
+<li>Capital markets landing page with Mizuho, B3, and HDFC proof points</li>
+<li>Competitive battle cards per buyer persona (kdb+, InfluxDB, TimescaleDB)</li>
+<li>ABM programme targeting 500 capital markets accounts</li>
+<li>kdb+ displacement content and TCO calculator</li>
+<li>Events calendar architecture for TradingTech, QuantMinds, FIX Trading</li>
+<li>90 day hands on build with your founding team</li>
+</ul>
+<p class="rv d3" style="font-size:.85rem;color:var(--g4)">Investment: Let us discuss it on a call. We will show you the economics first.</p>
+</div></section>
+
+<!-- CARD 25: FINAL CTA + CAL.COM -->
+<section class="dark" id="s25" style="padding-bottom:32px"><div class="w">
+<h2 class="rv">2 Options To Get Started</h2>
+<div class="ctg rv d1">
+<div class="ctc"><h3>Just Reply</h3><p>Write back with any questions. I will send you the complete OSS to enterprise growth architecture. No commitment.</p><a class="btn b-gh" href="mailto:">Reply to Email</a></div>
+<div class="ctc"><h3>Book A Call</h3><p>15 minutes. I will walk you through the audit, the OSS funnel design, and the 90 day capital markets growth plan.</p><a class="btn b-ne" href="https://cal.com/jean-m-8f4kbr/15min" target="_blank">Book 15 Minutes</a></div>
+</div>
+
+<div style="margin-top:32px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px" class="rv d2">
+<h3 style="text-align:center;margin-bottom:16px;color:var(--ne)">Pick a Time That Works</h3>
+<div id="my-cal-inline" style="width:100%;min-height:400px;border-radius:8px;overflow:hidden"></div>
+</div>
+
+<p class="rv d3" style="margin-top:24px;font-size:1rem;line-height:1.6">Nicolas, QuestDB has the product, the benchmarks, the TradingTech award, and Tier 1 banks in production. The growth engine to convert all of that into systematic enterprise pipeline is the missing piece. That engine is mapped inside this package. The OSS funnel architecture is designed. The capital markets ABM programme is ready. The Head of Growth walks into a system, not a blank page.</p>
+<p class="rv" style="margin-top:12px;font-size:1.05rem;font-weight:700">Read it. Then decide.</p>
+<p style="margin-top:16px;font-style:italic;font-size:.85rem;color:var(--g4)">Jean Mundabi Fala<br>MDB Growth Capital</p>
+<p style="margin-top:10px;font-size:.8rem;color:var(--g4)"><strong>PS</strong> — Your Head of Growth JD lists 6 build from scratch responsibilities: OSS funnel instrumentation, pipeline generation, events calendar, content and SEO, developer community to enterprise conversion, and agentic growth platforms. This package addresses every one of them with a working playbook. That is either useful to you, or it is not. Either way, QuestDB keeps the research.</p>
+
+<footer>
+<p style="margin-bottom:4px">Prepared exclusively for Nicolas Hourcard, Co-Founder and CEO — QuestDB</p>
+<p>By Jean Mundabi Fala, CEO — MDB Growth Capital</p>
+<p style="margin-top:8px">Strategy and GTM research by Jean Mundabi Fala</p>
+</footer>
+</div></section>
+
+<script>
+// Reveal on scroll
+const o=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('on');o.unobserve(i.target)}})},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>o.observe(el));
+
+// Side nav scroll tracking
+const secs=document.querySelectorAll('section[id]');
+const dots=document.querySelectorAll('.sn a');
+const no=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){dots.forEach(d=>d.classList.remove('ac'));const d=document.querySelector(`.sn a[href="#${i.target.id}"]`);if(d)d.classList.add('ac')}})},{threshold:.2,rootMargin:'-5% 0px -60% 0px'});
+secs.forEach(s=>no.observe(s));
+
+// FAQ accordion
+document.querySelectorAll('.fq-q').forEach(q=>{q.addEventListener('click',()=>{const f=q.parentElement,w=f.classList.contains('open');document.querySelectorAll('.fq').forEach(x=>x.classList.remove('open'));if(!w)f.classList.add('open')})});
+
+// Video embed (auto-detect when URL is changed from placeholder)
+const ve=document.getElementById('videoEmbed');
+const vu='VIDEO_URL_GOES_HERE';
+if(vu&&vu!=='VIDEO_URL_GOES_HERE'){
+let eu='';
+if(vu.includes('loom.com')){eu=`https://www.loom.com/embed/${vu.split('/').pop().split('?')[0]}`}
+else if(vu.includes('youtube.com')||vu.includes('youtu.be')){const id=vu.includes('youtu.be')?vu.split('/').pop():new URLSearchParams(new URL(vu).search).get('v');eu=`https://www.youtube.com/embed/${id}`}
+else if(vu.includes('vimeo.com')){eu=`https://player.vimeo.com/video/${vu.split('/').pop().split('?')[0]}`}
+else if(vu.includes('tella.tv')){eu=vu.replace('/video/','/embed/')}
+if(eu){ve.innerHTML=`<iframe src="${eu}" style="width:100%;height:100%;border:none;border-radius:12px" allowfullscreen></iframe>`}
+}
+</script>
+
+<!-- Cal.com Embed -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", {origin:"https://cal.com"});
+Cal("inline", { elementOrSelector:"#my-cal-inline", calLink: "jean-m-8f4kbr/15min", layout: "month_view" });
+Cal("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+</script>
+
+</body>
+</html>
